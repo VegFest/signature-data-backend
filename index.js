@@ -42,8 +42,29 @@ server.get('/', function (req, res, next) {
           return next();
       }
   })
+});
 
+server.get('/target', function (req, res, next) {
+  var theOutput = {
+    "totalCount": "666" //hardcoded default
+  };
 
+  // get totalCount from FormKeep API
+  var apiURL = 'https://formkeep.com/api/v1/forms/08c5a7984b16/submissions.json?api_token=' + formKeepAPIKey;
+
+  request({
+      url: apiURL,
+      json: true
+  }, function (error, response, body) {
+
+      if (!error && response.statusCode === 200) {
+        theOutput.totalCount = body.meta.pagination.total_count;
+        console.log('totalCount: ');
+          console.log(theOutput.totalCount) // Print the json response
+          res.send(theOutput);
+          return next();
+      }
+  })
 });
 
 
