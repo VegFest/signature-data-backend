@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container-fluid text-center">
+      <h1 class="">CAMPAIGNS DASHBOARD</h1>
+      <hr>
+      <h2>Veggie Burger at Wendy's</h2>
+      <div class="row text-center">
+        <div class="col-sm-4  col-sm-offset-2">
+          <h1 id="wendys-signatures">0</h1>
+          signatures
+        </div>
+        <div class="col-sm-4">
+          <h1 id="wendys-shares">0</h1>
+          fb shares
+        </div>
+        <!-- <div class="col-sm-4">
+          <h1 id="wendys-visitors">0</h1>
+          unique visitors
+        </div> -->
+      </div>
+      <hr>
+      <h2>New vegan products at Walmart/Target</h2>
+      <div class="row text-center">
+        <div class="col-sm-4 col-sm-offset-2">
+          <h1 id="target-walmart-signatures">0</h1>
+          signatures
+        </div>
+        <div class="col-sm-4">
+          <h1 id="target-walmart-shares">0</h1>
+          fb shares
+        </div>
+        <!-- <div class="col-sm-4">
+          <h1 id="target-walmart-visitors">0</h1>
+          unique visitors
+        </div> -->
+      </div>
+      <hr>
+
+    </div> <! --container-fluid -->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+				/* get the current number of signatures and update the html of the page */
+				$.getJSON( "https://signature-data-backend.herokuapp.com/forms/08c5a7984b16", function( data ) {
+					$('#target-walmart-signatures').html(data.totalCount);
+				});
+        $.getJSON( "https://graph.facebook.com/https://act.vegfest.org/veggie-burgers-at-wendys", function( data ) {
+          $('#wendys-shares').html(data.shares);
+        });
+        $.getJSON( "https://signature-data-backend.herokuapp.com/forms/02515915d774", function( data ) {
+          $('#wendys-signatures').html(data.totalCount);
+        });
+        $.getJSON( "https://graph.facebook.com/https://act.vegfest.org/43-new-vegan-products-at-walmart-and-target/", function( data ) {
+          $('#target-walmart-shares').html(data.shares);
+        });
+		});
+
+    </script>
+  </body>
+</html>
