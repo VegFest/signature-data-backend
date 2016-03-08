@@ -19,15 +19,20 @@ server.use(restify.acceptParser(server.acceptable));
 server.use(restify.queryParser());
 server.use(restify.bodyParser());
 
+server.get('/', function (req, res, next) {
+  res.send({forms: ['02515915d774', '08c5a7984b16']});
+});
+
 
 // this is just a route for the index of the API
-server.get('/', function (req, res, next) {
+server.get('/forms/:id', function (req, res, next) {
   var theOutput = {
     "totalCount": "4003" //hardcoded default
   };
 
   // get totalCount from FormKeep API
-  var apiURL = 'https://formkeep.com/api/v1/forms/02515915d774/submissions.json?api_token=' + formKeepAPIKey;
+  var formID = req.params.id;
+  var apiURL = 'https://formkeep.com/api/v1/forms/' + formID + '/submissions.json?api_token=' + formKeepAPIKey;
 
   request({
       url: apiURL,
@@ -43,30 +48,6 @@ server.get('/', function (req, res, next) {
       }
   })
 });
-
-server.get('/target', function (req, res, next) {
-  var theOutput = {
-    "totalCount": "666" //hardcoded default
-  };
-
-  // get totalCount from FormKeep API
-  var apiURL = 'https://formkeep.com/api/v1/forms/08c5a7984b16/submissions.json?api_token=' + formKeepAPIKey;
-
-  request({
-      url: apiURL,
-      json: true
-  }, function (error, response, body) {
-
-      if (!error && response.statusCode === 200) {
-        theOutput.totalCount = body.meta.pagination.total_count;
-        console.log('totalCount: ');
-          console.log(theOutput.totalCount) // Print the json response
-          res.send(theOutput);
-          return next();
-      }
-  })
-});
-
 
 server.listen(port, function () {
   console.log('%s listening at url %s', server.name, server.url);
