@@ -19,10 +19,13 @@ server.use(restify.acceptParser(server.acceptable));
 server.use(restify.queryParser());
 server.use(restify.bodyParser());
 
-server.get('/', function (req, res, next) {
+server.get('/forms', function (req, res, next) {
   res.send({forms: ['02515915d774', '08c5a7984b16']});
 });
 
+server.get('/', function (req, res, next) {
+  res.send({forms: ['02515915d774', '08c5a7984b16']});
+});
 
 // this is just a route for the index of the API
 server.get('/forms/:id', function (req, res, next) {
